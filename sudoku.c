@@ -19,7 +19,7 @@ struct Quadrante {
 void verificaValorNaLinha      (Sudoku * p_sudoku, int linha, unsigned char valoresPossiveis[]);
 void verificarValorNaColuna    (Sudoku * p_sudoku, int coluna, unsigned char valoresPossiveis[]);
 void verificarValorNoQuadrante (Sudoku * p_sudoku, const struct Quadrante * quadrante, unsigned char valoresPossiveis[]);
-void resolverQuadrante         (struct Quadrante * quadrante, int linha, int coluna);
+void gerarValoresDoQuadrante   (struct Quadrante * quadrante, int linha, int coluna);
 void resolverPorMetodoSingle   (Sudoku * p_sudoku);
 
 // interface requerida
@@ -78,8 +78,8 @@ void verificarValorNoQuadrante(Sudoku * p_sudoku,  const struct Quadrante * quad
         }
 }
 
-/*TODO:Validar mapeamento de quadrante conforme linha e coluna*/
-void resolverQuadrante(struct Quadrante * quadrante, int linha, int coluna){
+/*TODO: mapear quadrante conforme linha e coluna*/
+void gerarValoresDoQuadrante(struct Quadrante * quadrante, int linha, int coluna){
 
 /*
 
