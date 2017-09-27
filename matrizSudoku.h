@@ -9,11 +9,12 @@
 #include <string.h>
 #include <stdlib.h>
 
+//estrutura
 typedef struct {
 
-    unsigned char nrCelulas;
+        unsigned char nrCelulas;
 
-    unsigned char G[10][10];
+        unsigned char G[10][10];
 
 }Sudoku;
 
@@ -22,39 +23,50 @@ typedef struct {
 void mostrarMatriz(Sudoku *);
 void lerMatriz(Sudoku *);
 
-
+//TODO: Implementar algo mais elegante
 void mostrarMatriz(Sudoku * p_sudoku){
+
+        int linha, coluna;
+
+        printf ("\n");
+        for (linha = 1; linha <= 9; linha++) {
+                for (coluna = 1; coluna <= 9; coluna++) {
+                        printf (" %c ", p_sudoku->G[linha][coluna]);
+                }
+                printf("\n\n");
+        }
+        printf ("\n");
 
 }
 
 void lerMatriz( Sudoku * p_sudoku ){
 
-    unsigned char linha[10];
-    size_t lin, i, n = 10;
+        unsigned char stringLinha[10];
 
-    lin = 0;
+        size_t linha, i, length;
 
-    FILE * entrada = fopen("/temp/sudoku.txt", "r");
+        FILE * entrada = fopen("/tmp/sudoku.txt", "r");
 
-    if(entrada == NULL){
-        fprintf(stderr,"Error: Nao foi encontrado o arquivo sudoku.txt na pasta temp");
-        exit(-1);
-    }else {
-        while (fscanf(entrada, "%10s", linha) == 1) {
+        if(entrada == NULL) {
+                fprintf(stderr,"Error: Nao foi encontrado o arquivo sudoku.txt na pasta temp\n");
+                exit(-1);
+        }
 
-            n = strlen((char *) linha);
-            lin = lin + 1;
+        linha = 0;
 
-            for (i = 1; i <= n; i++) {
-                p_sudoku->G[lin][i] = linha[i];
-            }
+        while (fscanf(entrada, "%10s", stringLinha) == 1) {
+
+                length = strlen((char *) stringLinha);
+
+                linha = linha + 1;
+
+                for (i = 1; i <= length; i++) {
+                        p_sudoku->G[linha][i] = stringLinha[i-1];
+                }
 
         }
 
         fclose(entrada);
-    }
 }
-
-
 
 #endif //SUDOKUED1_MATRIZSUDOKU_H_H

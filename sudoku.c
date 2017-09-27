@@ -4,10 +4,10 @@
 //estruturas
 struct Quadrante {
 
-    unsigned i: 4;
-    unsigned iLimite: 4;
-    unsigned j: 4;
-    unsigned jLimite: 4;
+        unsigned i : 4;
+        unsigned iLimite : 4;
+        unsigned j : 4;
+        unsigned jLimite : 4;
 
 };
 
@@ -23,16 +23,16 @@ void mostrarPossiveis(Sudoku *, int, int);
 //main
 int main(int argc, char * argv[]){
 
-    Sudoku sudoku;
+        Sudoku sudoku;
 
-    lerMatriz(&sudoku);
+        lerMatriz(&sudoku);
 
-    // LOOP
+        // LOOP
 
-    // Resolver Por Metodo Single¹ ()
-    // mostrarPossiveis
+        // Resolver Por Metodo Single¹ ()
+        // mostrarPossiveis
 
-    // RESOLVER SUDOKU
+        // RESOLVER SUDOKU
 }
 //main
 
@@ -58,4 +58,3 @@ void mostrarPossiveis(Sudoku * p_sudoku, int linha, int coluna){
 
 }
 // Implementações
-
