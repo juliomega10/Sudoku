@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.8)
-project(SudokuEd1)
+project(Sudoku)
 
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES sudoku.c matrizSudoku.h)
-add_executable(SudokuEd1 ${SOURCE_FILES} matrizSudoku.h)
+set(SOURCE_FILES
+        matrizSudoku.h
+        sudoku.c)
+
+add_executable(Sudoku ${SOURCE_FILES})
