@@ -14,10 +14,10 @@
 //estruturas
 struct Grade {
 
-    unsigned linha : 4;
-    unsigned linhaLimite : 4;
-    unsigned coluna : 4;
-    unsigned colunaLimite : 4;
+    int linha : 4;
+    int linhaLimite : 4;
+    int coluna : 4;
+    int colunaLimite : 4;
 
 };
 
@@ -163,7 +163,10 @@ void gerarValoresDaGrade(struct Grade *grade, int linha, int coluna) {
    v2 = (4,6)
    v3 = (7,9)
 
-   base : (1 + 3*a, 3*(a+1))
+   base : (1 + 3*a, 3*(a+1))          ; para a <= 2, a pertencente a N
+
+   a = (L - 1)/ 3    ; L = linha         ; 1 <= L <= 9 ; L pertencente a N
+   a = (C - 1)/ 3    ; C = coluna        ; 1 <= C <= 9 ; C pertencente a N
 
  */
 
