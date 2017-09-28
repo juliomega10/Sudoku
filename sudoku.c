@@ -66,6 +66,11 @@ int main(int argc, char *argv[]) {
 
     putchar('\n');
 
+    struct Grade grade;
+
+    gerarValoresDaGrade(&grade,2,5);
+
+    printf("linha:%d\nlinha limite:%d\ncoluna:%d\ncoluna limite:%d\n", grade.linha,grade.linhaLimite,grade.coluna,grade.colunaLimite);
 
     // LOOP
 
@@ -135,10 +140,10 @@ void verificarValorNaGrade(Sudoku *p_sudoku, const struct Grade *grade, unsigned
     }
 }
 
-/*TODO: mapear grade conforme linha e coluna*/
 void gerarValoresDaGrade(struct Grade *grade, int linha, int coluna) {
 
 /*
+              Análise do problema
 
    Grade 1 <> coluna = [1,3] ; linha = [1,3]
    Grade 2 <> coluna = [1,3] ; linha = [4,6]
@@ -152,15 +157,33 @@ void gerarValoresDaGrade(struct Grade *grade, int linha, int coluna) {
    Grade 8 <> coluna = [7,9] ; linha = [4,6]
    Grade 9 <> coluna = [7,9] ; linha = [7,9]
 
+   V = { v1, v2, v3}
+
+   v1 = (1,3)
+   v2 = (4,6)
+   v3 = (7,9)
+
+   base : (1 + 3*a, 3*(a+1))
+
  */
 
- 
+ linha  = (linha  - 1) / 3;
+ coluna = (coluna - 1) / 3;
+
+ grade->linha = 1 + 3 * linha;
+ grade->linhaLimite = 3 * (linha + 1);
+ grade->coluna = 1 + 3 * coluna;
+ grade->colunaLimite = 3 * (coluna + 1);
+
 }
 
 void resolverPorMetodoSingle(Sudoku *p_sudoku) {
 
-    unsigned char valoresPossiveis[] = {ZERO, UM, UM, UM, UM, UM, UM, UM, UM, UM, CONST_QUANTIDADE_UNS,
-                                        CONST_SOMATORIA_UM_A_NOVE};
+    unsigned char valoresPossiveis[] = {
+      ZERO,
+      UM, UM, UM, UM, UM, UM, UM, UM, UM,
+      CONST_QUANTIDADE_UNS,CONST_SOMATORIA_UM_A_NOVE
+    };
 
     struct Grade quadrante;
 
