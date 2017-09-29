@@ -21,6 +21,11 @@ struct Grade {
 
 };
 
+enum Boolean {
+    false,
+    true
+};
+
 // interfaces
 void verificaValorNaLinha(Sudoku *p_sudoku, int linha, unsigned char valoresPossiveis[]);
 
@@ -30,9 +35,11 @@ void verificarValorNaGrade(Sudoku *p_sudoku, const struct Grade *grade, unsigned
 
 void gerarValoresDaGrade(struct Grade *grade, int linha, int coluna);
 
-void resolverValoresPossiveis(Sudoku *p_sudoku, int coluna, unsigned char *valoresPossiveis, int linha);
+void resolverValoresPossiveis(Sudoku *p_sudoku, int linha, int coluna, unsigned char valoresPossiveis[]);
 
-void resolverPorMetodoSingle(Sudoku *p_sudoku);
+enum Boolean resolverPorMetodoSingle(Sudoku *p_sudoku);
+
+void construirValoresPossiveis(unsigned char valoresPossiveis[]);
 
 // interface requerida
 void mostrarPossiveis(Sudoku *, int, int);
@@ -41,74 +48,53 @@ void mostrarPossiveis(Sudoku *, int, int);
 //main
 int main(int argc, char *argv[]) {
 
-    int i;
-
-    int linha, coluna;
-
-    unsigned char valoresPossiveis[] = {
-            ZERO,
-            UM, UM, UM, UM, UM, UM, UM, UM, UM,
-            CONST_QUANTIDADE_UNS, CONST_SOMATORIA_UM_A_NOVE
-    };
-
-    struct Grade grade;
-
     Sudoku sudoku = {.nrCelulas = 10};
 
     lerMatriz(&sudoku);
 
+    enum Boolean resolvido;
+
+    int contagem = 0;
+
+    printf("\nInicio\n");
+
     mostrarMatriz(&sudoku);
 
-    linha = 6;
+    do {
 
-    coluna = 7;
+        contagem = contagem + 1;
 
-    verificaValorNaLinha(&sudoku, linha, valoresPossiveis);
+        resolvido = resolverPorMetodoSingle(&sudoku);
 
-    printf("após verificar valor na linha %d .. \n", linha);
-    for (i = 1; i <= INDICE_VALOR_UNICO; i++) {
-        printf("%d,", valoresPossiveis[i]);
-    }
+    }while(resolvido == false && contagem <= 50);
 
-    putchar('\n');
+    printf("Quantidade de vezes necessárias para resolver: %d\n", contagem);
 
-    verificarValorNaColuna(&sudoku, coluna, valoresPossiveis);
-
-    printf("após verificar valor na coluna %d .. \n", coluna);
-
-    for (i = 1; i <= INDICE_VALOR_UNICO; i++) {
-        printf("%d,", valoresPossiveis[i]);
-    }
-
-    putchar('\n');
-
-    gerarValoresDaGrade(&grade,linha,coluna);
-
-    verificarValorNaGrade(&sudoku, &grade, valoresPossiveis);
-
-    printf("após verificar na grade linha [%d,%d] | coluna  [%d,%d].. \n",  grade.linha,grade.linhaLimite,grade.coluna,grade.colunaLimite);
-
-    for (i = 1; i <= INDICE_VALOR_UNICO; i++) {
-        printf("%d,", valoresPossiveis[i]);
-    }
-
-    putchar('\n');
-
-    // LOOP
-
-    // Resolver Por Metodo Single¹ ()
-    // mostrarPossiveis
-
-    // RESOLVER SUDOKU
+    mostrarMatriz(&sudoku);
 
     return 0;
+
 }
 //main
 
 
 // Implementações
 
-inline void resolverValoresPossiveis(Sudoku *p_sudoku, int coluna, unsigned char *valoresPossiveis, int linha) {
+void construirValoresPossiveis(unsigned char valoresPossiveis[]){
+
+    int indice;
+
+    for(indice = 1; indice <= CONST_QUANTIDADE_UNS; indice++){
+        valoresPossiveis[indice] = UM;
+    }
+
+    valoresPossiveis[0] = ZERO;
+    valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS] = CONST_QUANTIDADE_UNS;
+    valoresPossiveis[INDICE_VALOR_UNICO] = CONST_SOMATORIA_UM_A_NOVE + ZERO;
+
+}
+
+inline void resolverValoresPossiveis(Sudoku *p_sudoku, int linha, int coluna, unsigned char valoresPossiveis[]) {
 
     int indice;
 
@@ -156,7 +142,7 @@ void gerarValoresDaGrade(struct Grade *grade, int linha, int coluna) {
 
  */
 
-    linha  = (linha  - 1) / 3;
+    linha = (linha - 1) / 3;
     coluna = (coluna - 1) / 3;
 
     grade->linha = 1 + 3 * linha;
@@ -171,7 +157,7 @@ void verificaValorNaLinha(Sudoku *p_sudoku, int linha, unsigned char valoresPoss
     int coluna;
 
     for (coluna = 1; coluna < p_sudoku->nrCelulas; coluna = coluna + 1) {
-        resolverValoresPossiveis(p_sudoku, coluna, valoresPossiveis, linha);
+        resolverValoresPossiveis(p_sudoku, linha, coluna, valoresPossiveis);
     }
 
 }
@@ -181,7 +167,7 @@ void verificarValorNaColuna(Sudoku *p_sudoku, int coluna, unsigned char valoresP
     int linha;
 
     for (linha = 1; linha < p_sudoku->nrCelulas; linha = linha + 1) {
-        resolverValoresPossiveis(p_sudoku, coluna, valoresPossiveis, linha);
+        resolverValoresPossiveis(p_sudoku, linha, coluna, valoresPossiveis);
     }
 
 }
@@ -192,21 +178,60 @@ void verificarValorNaGrade(Sudoku *p_sudoku, const struct Grade *grade, unsigned
 
     for (linha = grade->linha; linha < grade->linhaLimite; linha = linha + 1) {
         for (coluna = grade->coluna; coluna < grade->colunaLimite; coluna = coluna + 1) {
-            resolverValoresPossiveis(p_sudoku, coluna, valoresPossiveis, linha);
+            resolverValoresPossiveis(p_sudoku, linha, coluna, valoresPossiveis);
         }
     }
 }
 
+enum Boolean resolverPorMetodoSingle(Sudoku *p_sudoku) {
 
-void resolverPorMetodoSingle(Sudoku *p_sudoku) {
+    unsigned char valoresPossiveis[INDICE_VALOR_UNICO + 1];
 
-    unsigned char valoresPossiveis[] = {
-      ZERO,
-      UM, UM, UM, UM, UM, UM, UM, UM, UM,
-      CONST_QUANTIDADE_UNS,CONST_SOMATORIA_UM_A_NOVE
-    };
+    struct Grade grade;
 
-    struct Grade quadrante;
+    int linha, coluna;
+
+    enum Boolean resolvido = true;
+
+    for (linha = 1; linha < p_sudoku->nrCelulas; ++linha) {
+
+        for (coluna = 1; coluna < p_sudoku->nrCelulas; ++coluna) {
+
+            if (p_sudoku->G[linha][coluna] == ZERO) {
+
+                construirValoresPossiveis(valoresPossiveis);
+
+                verificaValorNaLinha(p_sudoku, linha, valoresPossiveis);
+
+                if (valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS] == 1) {
+                    p_sudoku->G[linha][coluna] = valoresPossiveis[INDICE_VALOR_UNICO];
+                    continue;
+                }
+
+                verificarValorNaColuna(p_sudoku, coluna, valoresPossiveis);
+
+                if (valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS] == 1) {
+                    p_sudoku->G[linha][coluna] = valoresPossiveis[INDICE_VALOR_UNICO];
+                    continue;
+                }
+
+                gerarValoresDaGrade(&grade, linha, coluna);
+
+                verificarValorNaGrade(p_sudoku, &grade, valoresPossiveis);
+
+                if (valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS] == 1) {
+                    p_sudoku->G[linha][coluna] = valoresPossiveis[INDICE_VALOR_UNICO];
+                    continue;
+                }
+
+                resolvido = false;
+
+            }
+
+        }
+    }
+
+    return resolvido;
 
 }
 
