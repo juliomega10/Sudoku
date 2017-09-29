@@ -212,7 +212,7 @@ int resolverPorMetodoSingle(Sudoku *p_sudoku) {
                 /*
                  *
                  * f(quantidade, valor) = valor / (quantidade - 1 + valor);
-                 *
+                 * Dominio : {(quantidade,valor) € N² | 1 <= quantidade <= 9 e 1 <= valor <= 45}
                  * Image : {0,1}
                  *
                  * */
@@ -222,7 +222,7 @@ int resolverPorMetodoSingle(Sudoku *p_sudoku) {
 
                 resolvido = resolvido / (resolvido - 1 + valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS]);
 
-                p_sudoku->G[linha][coluna] = (unsigned char )(resolvido * valoresPossiveis[INDICE_VALOR_POSSIVEL] + ZERO);
+                p_sudoku->G[linha][coluna] = resolvido * valoresPossiveis[INDICE_VALOR_POSSIVEL] + ZERO;
 
             }
 
