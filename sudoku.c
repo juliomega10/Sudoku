@@ -174,8 +174,8 @@ void verificarValorNaGrade(Sudoku *p_sudoku, const struct Grade *grade, unsigned
 
     int linha, coluna;
 
-    for (linha = grade->linha; linha < grade->linhaLimite; linha = linha + 1) {
-        for (coluna = grade->coluna; coluna < grade->colunaLimite; coluna = coluna + 1) {
+    for (linha = grade->linha; linha <= grade->linhaLimite; linha = linha + 1) {
+        for (coluna = grade->coluna; coluna <= grade->colunaLimite; coluna = coluna + 1) {
             resolverValoresPossiveis(p_sudoku, linha, coluna, valoresPossiveis);
         }
     }
