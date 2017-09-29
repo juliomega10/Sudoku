@@ -68,12 +68,14 @@ int main(int argc, char *argv[]) {
 
     }while(resolvido == false && contagem <= 50);
 
-    printf("Quantidade de vezes necessárias para resolver: %d\n", contagem);
-
-    mostrarMatriz(&sudoku);
+    if(contagem <= 50){
+      printf("Quantidade de vezes necessárias para resolver: %d\n", contagem);
+      mostrarMatriz(&sudoku);
+    }else {
+      printf("Sudoku impossivel de resolver.\n");
+    }
 
     return 0;
-
 }
 //main
 
@@ -203,17 +205,7 @@ enum Boolean resolverPorMetodoSingle(Sudoku *p_sudoku) {
 
                 verificaValorNaLinha(p_sudoku, linha, valoresPossiveis);
 
-                if (valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS] == 1) {
-                    p_sudoku->G[linha][coluna] = valoresPossiveis[INDICE_VALOR_UNICO];
-                    continue;
-                }
-
                 verificarValorNaColuna(p_sudoku, coluna, valoresPossiveis);
-
-                if (valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS] == 1) {
-                    p_sudoku->G[linha][coluna] = valoresPossiveis[INDICE_VALOR_UNICO];
-                    continue;
-                }
 
                 gerarValoresDaGrade(&grade, linha, coluna);
 
@@ -221,11 +213,10 @@ enum Boolean resolverPorMetodoSingle(Sudoku *p_sudoku) {
 
                 if (valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS] == 1) {
                     p_sudoku->G[linha][coluna] = valoresPossiveis[INDICE_VALOR_UNICO];
-                    continue;
+                }else {
+                  resolvido = false;
                 }
-
-                resolvido = false;
-
+                
             }
 
         }
