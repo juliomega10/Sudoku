@@ -9,7 +9,8 @@
 #define CONST_SOMATORIA_UM_A_NOVE 45
 
 #define INDICE_QUANTIDADE_VALORES_POSSIVEIS 10
-#define INDICE_VALOR_UNICO 11
+#define INDICE_VALOR_POSSIVEL 11
+#define RESOLVIDO 2
 
 //estruturas
 struct Grade {
@@ -61,7 +62,7 @@ int main(int argc, char *argv[]) {
 
         resolvido = resolverPorMetodoSingle(&sudoku);
 
-    }while(resolvido != 2 && contagem <= 50);
+    }while(resolvido != RESOLVIDO && contagem <= 50);
 
     if(contagem <= 50){
       printf("Quantidade de vezes necessárias para resolver: %d\n", contagem);
@@ -87,7 +88,7 @@ void construirValoresPossiveis(unsigned char valoresPossiveis[]){
 
     valoresPossiveis[0] = ZERO;
     valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS] = CONST_QUANTIDADE_UNS;
-    valoresPossiveis[INDICE_VALOR_UNICO] = CONST_SOMATORIA_UM_A_NOVE;
+    valoresPossiveis[INDICE_VALOR_POSSIVEL] = CONST_SOMATORIA_UM_A_NOVE;
 
 }
 
@@ -103,7 +104,7 @@ inline void resolverValoresPossiveis(Sudoku *p_sudoku, int linha, int coluna, un
 
     valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS] -= valorPossivel;
 
-    valoresPossiveis[INDICE_VALOR_UNICO] -= indice * valorPossivel;
+    valoresPossiveis[INDICE_VALOR_POSSIVEL] -= indice * valorPossivel;
 
     valoresPossiveis[indice] = ZERO;
 
@@ -182,7 +183,7 @@ void verificarValorNaGrade(Sudoku *p_sudoku, const struct Grade *grade, unsigned
 
 int resolverPorMetodoSingle(Sudoku *p_sudoku) {
 
-    unsigned char valoresPossiveis[INDICE_VALOR_UNICO + 1];
+    unsigned char valoresPossiveis[INDICE_VALOR_POSSIVEL + 1];
 
     struct Grade grade;
 
@@ -190,7 +191,7 @@ int resolverPorMetodoSingle(Sudoku *p_sudoku) {
 
     int resolvido;
 
-    resolvido = 2;
+    resolvido = RESOLVIDO;
 
     for (linha = 1; linha < p_sudoku->nrCelulas; ++linha) {
 
@@ -217,13 +218,11 @@ int resolverPorMetodoSingle(Sudoku *p_sudoku) {
                  * */
 
 
-                resolvido = valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS];
+                resolvido = valoresPossiveis[INDICE_VALOR_POSSIVEL];
 
-                resolvido = resolvido / (resolvido - 1 + valoresPossiveis[INDICE_VALOR_UNICO]);
+                resolvido = resolvido / (resolvido - 1 + valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS]);
 
-                // g(f(quantidade, valor), valor) = f(quantidade, valor) * valor;
-
-                p_sudoku->G[linha][coluna] = (unsigned char )(resolvido * valoresPossiveis[INDICE_VALOR_UNICO] + ZERO);
+                p_sudoku->G[linha][coluna] = (unsigned char )(resolvido * valoresPossiveis[INDICE_VALOR_POSSIVEL] + ZERO);
 
             }
 
