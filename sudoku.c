@@ -10,7 +10,7 @@
 
 #define INDICE_QUANTIDADE_VALORES_POSSIVEIS 10
 #define INDICE_VALOR_POSSIVEL 11
-#define RESOLVIDO 2
+#define RESOLVIDO 1
 
 //estruturas
 struct Grade {
@@ -189,11 +189,9 @@ int resolverPorMetodoSingle(Sudoku *p_sudoku) {
 
     int linha, coluna;
 
-    int resolvido;
+    int valorPossivel, resolvido;
 
-    resolvido = RESOLVIDO;
-
-    for (linha = 1; linha < p_sudoku->nrCelulas; ++linha) {
+    for (resolvido = RESOLVIDO,linha = 1; linha < p_sudoku->nrCelulas; ++linha) {
 
         for (coluna = 1; coluna < p_sudoku->nrCelulas; ++coluna) {
 
@@ -218,11 +216,13 @@ int resolverPorMetodoSingle(Sudoku *p_sudoku) {
                  * */
 
 
-                resolvido = valoresPossiveis[INDICE_VALOR_POSSIVEL];
+                valorPossivel = valoresPossiveis[INDICE_VALOR_POSSIVEL];
 
-                resolvido = resolvido / (resolvido - 1 + valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS]);
+                valorPossivel = valorPossivel / (valorPossivel - 1 + valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS]);
 
-                p_sudoku->G[linha][coluna] = resolvido * valoresPossiveis[INDICE_VALOR_POSSIVEL] + ZERO;
+                p_sudoku->G[linha][coluna] = valorPossivel * valoresPossiveis[INDICE_VALOR_POSSIVEL] + ZERO;
+
+                resolvido = resolvido & valorPossivel;
 
             }
 
@@ -234,6 +234,7 @@ int resolverPorMetodoSingle(Sudoku *p_sudoku) {
 }
 
 void mostrarPossiveis(Sudoku *p_sudoku, int linha, int coluna) {
+
 
 }
 
