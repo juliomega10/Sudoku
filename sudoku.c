@@ -56,6 +56,8 @@ int main(int argc, char *argv[]) {
 
     mostrarMatriz(&sudoku);
 
+    mostrarPossiveis(&sudoku,5,4);
+
     do {
 
         contagem = contagem + 1;
@@ -234,6 +236,101 @@ int resolverPorMetodoSingle(Sudoku *p_sudoku) {
 
 void mostrarPossiveis(Sudoku *p_sudoku, int linha, int coluna) {
 
+    unsigned char valoresPossiveis[INDICE_VALOR_POSSIVEL + 1];
+
+    struct Grade grade;
+
+    int loopMostrarPossiveis;
+
+    //DESIGNE ---------------------------------------------------------------------------------
+
+    printf ("%c", 201);
+    for(loopMostrarPossiveis = 1; loopMostrarPossiveis <= 46; loopMostrarPossiveis++)	printf ("%c", 205);
+    printf ("%c\n%c", 187, 186);
+
+    //DESIGNE ---------------------------------------------------------------------------------
+
+    if (p_sudoku->G[linha][coluna] == ZERO) {
+
+        //VERIFICANDO POSSIVEIS NO PONTO [x,y]-------------------------------------------------
+
+        construirValoresPossiveis(valoresPossiveis);
+
+        verificaValorNaLinha(p_sudoku, linha, valoresPossiveis);
+
+        verificarValorNaColuna(p_sudoku, coluna, valoresPossiveis);
+
+        gerarValoresDaGrade(&grade, linha, coluna);
+
+        verificarValorNaGrade(p_sudoku, &grade, valoresPossiveis);
+
+        //VERIFICANDO POSSIVEIS NO PONTO [x,y]-------------------------------------------------
+
+        //DESIGNE ---------------------------------------------------------------------------------
+
+        printf ("Quantidade Possiveis > %c",valoresPossiveis[INDICE_QUANTIDADE_VALORES_POSSIVEIS] + ZERO);
+        printf ("\t     %c%c%c%c%c%c%c%c%c %c\n", 201, 205, 205, 205, 205, 205, 205, 205, 187, 186);
+        printf ("%cValores Possiveis Para -> [%d,%d]  -> ", 186,linha,coluna);
+
+        //DESIGNE ---------------------------------------------------------------------------------
+
+        for( loopMostrarPossiveis = 1; loopMostrarPossiveis <= 9; loopMostrarPossiveis++ ) {
+
+            //DESIGNE ---------------------------------------------------------------------------------
+
+            switch(loopMostrarPossiveis){
+                case 1: case 4: case 7:
+
+                    printf ("%c ", 186);
+
+            }
+
+            //DESIGNE ---------------------------------------------------------------------------------
+
+            //CONDICIONAL PARA PRINTF DOS POSSIVEIS ---------------------------------------------------
+
+            if (valoresPossiveis[loopMostrarPossiveis] == '1'){
+                printf("%d ", loopMostrarPossiveis);
+            }else{
+                printf("  ");
+            }
+
+            //CONDICIONAL PARA PRINTF DOS POSSIVEIS ---------------------------------------------------
+
+            //DESIGNE ---------------------------------------------------------------------------------
+
+            switch(loopMostrarPossiveis) {
+                case 3: case 6: case 9:
+
+                    printf ("%c %c\n%c\t\t\t\t     ", 186, 186, 186);
+
+            }
+
+            //DESIGNE ---------------------------------------------------------------------------------
+
+        }
+
+        //DESIGNE ---------------------------------------------------------------------------------
+
+        printf ("%c%c%c%c%c%c%c%c%c %c\n", 200, 205, 205, 205, 205, 205, 205, 205, 188, 186);
+
+        printf ("%c", 200);
+        for(loopMostrarPossiveis = 1; loopMostrarPossiveis <= 46; loopMostrarPossiveis++)	printf ("%c", 205);
+        printf ("%c\n\n", 188);
+
+        //DESIGNE ---------------------------------------------------------------------------------
+
+    }else{
+        printf ("Nao Ha Possiveis - Posicao Definida\t       %c\n", 186);
+
+        //DESIGNE ---------------------------------------------------------------------------------
+
+        printf ("%c", 200);
+        for(loopMostrarPossiveis = 1; loopMostrarPossiveis <= 46; loopMostrarPossiveis++)	printf ("%c", 205);
+        printf ("%c\n\n", 188, 186);
+
+        //DESIGNE ---------------------------------------------------------------------------------
+    }
 
 }
 
