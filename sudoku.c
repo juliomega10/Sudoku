@@ -65,10 +65,10 @@ int main(int argc, char *argv[]) {
     }while(resolvido != RESOLVIDO && contagem <= 50);
 
     if(contagem <= 50){
-      printf("Quantidade de vezes necessárias para resolver: %d\n", contagem);
+      printf("Quantidade de vezes necessarias para resolver: %d\n", contagem);
       mostrarMatriz(&sudoku);
     }else {
-      printf("Sudoku impossivel de resolver.\n");
+        printf("\nQuantidade de vezes necessarias para resolver: %d\nSudoku impossivel de resolver.\n", contagem);
     }
 
     return 0;
