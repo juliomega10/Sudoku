@@ -191,7 +191,7 @@ int resolverPorMetodoSingle(Sudoku *p_sudoku) {
 
     int valorPossivel, resolvido;
 
-    for (resolvido = RESOLVIDO,linha = 1; linha < p_sudoku->nrCelulas; ++linha) {
+    for (resolvido = linha = 1; linha < p_sudoku->nrCelulas; ++linha) {
 
         for (coluna = 1; coluna < p_sudoku->nrCelulas; ++coluna) {
 
@@ -214,7 +214,6 @@ int resolverPorMetodoSingle(Sudoku *p_sudoku) {
                  * Image : {0,1}
                  *
                  * */
-
 
                 valorPossivel = valoresPossiveis[INDICE_VALOR_POSSIVEL];
 
