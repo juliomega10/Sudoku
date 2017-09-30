@@ -283,6 +283,7 @@ void mostrarPossiveis(Sudoku *p_sudoku, int linha, int coluna) {
 
                     printf ("%c ", 186);
 
+                default:break;
             }
 
             //DESIGNE ---------------------------------------------------------------------------------
@@ -304,6 +305,7 @@ void mostrarPossiveis(Sudoku *p_sudoku, int linha, int coluna) {
 
                     printf ("%c %c\n%c\t\t\t\t     ", 186, 186, 186);
 
+                default:break;
             }
 
             //DESIGNE ---------------------------------------------------------------------------------
@@ -327,7 +329,7 @@ void mostrarPossiveis(Sudoku *p_sudoku, int linha, int coluna) {
 
         printf ("%c", 200);
         for(loopMostrarPossiveis = 1; loopMostrarPossiveis <= 46; loopMostrarPossiveis++)	printf ("%c", 205);
-        printf ("%c\n\n", 188, 186);
+        printf ("%c\n\n", 188);
 
         //DESIGNE ---------------------------------------------------------------------------------
     }
