@@ -64,10 +64,15 @@ int main(int argc, char *argv[]) {
 
         resolvido = resolverPorMetodoSingle(&sudoku);
 
+        system("PAUSE");
+
+        printf ("Intencao %d \n\n", contagem);
+        mostrarMatriz(&sudoku);
+
     }while(resolvido != RESOLVIDO && contagem <= 50);
 
     if(contagem <= 50){
-      printf("Quantidade de vezes necessarias para resolver: %d\n", contagem);
+      printf("Quantidade de intencoes necessarias para resolver: %d\n", contagem);
       mostrarMatriz(&sudoku);
     }else {
         printf("\nQuantidade de vezes necessarias para resolver: %d\nSudoku impossivel de resolver.\n", contagem);
@@ -271,15 +276,31 @@ void mostrarPossiveis(Sudoku *p_sudoku, int linha, int coluna) {
         for( loopMostrarPossiveis = 1; loopMostrarPossiveis <= 9; loopMostrarPossiveis++ ) {
 
             //DESIGNE ---------------------------------------------------------------------------------
-            ((loopMostrarPossiveis % 3) == 1) ? printf ("%c ", 186) : printf ("");
+            switch(loopMostrarPossiveis){
+                case 1: case 4: case 7:
+
+                    printf ("%c ", 186);
+                default:break;
+
+            }
             //DESIGNE ---------------------------------------------------------------------------------
 
             //CONDICIONAL PARA PRINTF DOS POSSIVEIS ---------------------------------------------------
-            (valoresPossiveis[loopMostrarPossiveis] == '1') ? printf("%d ", loopMostrarPossiveis) : printf("  ");
+            if (valoresPossiveis[loopMostrarPossiveis] == '1'){
+                printf("%d ", loopMostrarPossiveis);
+            }else{
+                printf("  ");
+            }
             //CONDICIONAL PARA PRINTF DOS POSSIVEIS ---------------------------------------------------
 
             //DESIGNE ---------------------------------------------------------------------------------
-            ((loopMostrarPossiveis % 3) == 0) ? printf ("%c %c\n%c\t\t\t\t     ", 186, 186, 186) : printf ("");
+            switch(loopMostrarPossiveis) {
+                case 3: case 6: case 9:
+
+                    printf ("%c %c\n%c\t\t\t\t     ", 186, 186, 186);
+                default:break;
+
+            }
             //DESIGNE ---------------------------------------------------------------------------------
 
         }
